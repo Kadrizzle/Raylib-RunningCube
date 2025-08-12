@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include "square.cpp"
 
 int main()
 {
@@ -6,6 +7,7 @@ int main()
 
     constexpr int screenWidth = 800;
     constexpr int screenHeight = 600;
+    square player(100, 100, 10, 10, BLUE);
 
     int currentLevel = 0;
 
@@ -20,7 +22,7 @@ int main()
 
             break;
         case 1:
-
+            player.movePlayer();
             break;
         case 2:
 
@@ -49,6 +51,7 @@ int main()
             break;
         case 1:
             DrawText("Hello, you're on level 1", 50, 50, 50, navyBlue);
+            player.drawPlayer();
             break;
         case 2:
 

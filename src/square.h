@@ -9,16 +9,20 @@ private:
     float y;
     int width;
     int height;
-    Color RED;
+    Color color;
 
 public:
-    square(float squareX, float squareY, int squareWidth, int squareHeight);
+    square(float squareX, float squareY, int squareWidth, int squareHeight, Color color);
 
-    void moveSquare()
+    void movePlayer()
     {
     }
 
     bool mapCollisionDetection()
+    {
+    }
+
+    void drawPlayer()
     {
     }
 };
