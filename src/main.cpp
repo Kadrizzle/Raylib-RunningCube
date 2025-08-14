@@ -1,5 +1,5 @@
 #include <raylib.h>
-#include "square.cpp"
+#include "square.h"
 
 int main()
 {
@@ -7,7 +7,7 @@ int main()
 
     constexpr int screenWidth = 800;
     constexpr int screenHeight = 600;
-    square player(100, 100, 10, 10, BLUE);
+    square player(100, 100, 50, 50, BLUE);
 
     int currentLevel = 0;
 

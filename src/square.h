@@ -1,5 +1,4 @@
-#ifndef square_h
-#define square_h
+#pragma once
 #include <raylib.h>
 
 class square
@@ -14,17 +13,12 @@ private:
 public:
     square(float squareX, float squareY, int squareWidth, int squareHeight, Color color);
 
-    void movePlayer()
-    {
-    }
+    void movePlayer();
 
-    bool mapCollisionDetection()
-    {
-    }
 
-    void drawPlayer()
-    {
-    }
+    bool mapCollisionDetection();
+
+
+    void drawPlayer();
+
 };
-
-#endif
