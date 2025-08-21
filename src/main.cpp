@@ -1,13 +1,24 @@
 #include <raylib.h>
 #include "square.h"
 
+// Defining these outside of main so they'll be global
+int screenWidth = 1200;
+int screenHeight = 600;
+int mapX = (screenWidth / 6);
+int mapY = (screenHeight / 6);
+int mapWidth = screenWidth - (mapX * 2);
+int mapHeight = screenHeight - (mapY * 2);
+int innerMapX = mapX + 6;
+int innerMapY = mapY + 6;
+int innerMapWidth = mapWidth - 12;
+int innerMapHeight = mapHeight - 12;
+
 int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
-
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
-    square player(100, 100, 50, 50, BLUE);
+    int playerWidth = 30;
+    int playerHeight = 30;
+    square player(innerMapX + 5, ((innerMapY + innerMapHeight) / 2) + playerHeight, playerWidth, playerHeight);
 
     int currentLevel = 0;
 
@@ -50,7 +61,8 @@ int main()
 
             break;
         case 1:
-            DrawText("Hello, you're on level 1", 50, 50, 50, navyBlue);
+            DrawRectangle(mapX, mapY, mapWidth, mapHeight, BLACK);
+            DrawRectangle(innerMapX, innerMapY, innerMapWidth, innerMapHeight, GREEN);
             player.drawPlayer();
             break;
         case 2:
@@ -63,7 +75,7 @@ int main()
 
             break;
         }
-        ClearBackground(BEIGE);
+        ClearBackground(GRAY);
         EndDrawing();
     }
 
