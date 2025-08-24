@@ -5,9 +5,9 @@ int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
 
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
-    square player(100, 100, 50, 50, BLUE);
+    constexpr int screenWidth = 1200;
+    constexpr int screenHeight = 700;
+    square player(100, 100, 30, 30, BLUE);
 
     int currentLevel = 0;
 
@@ -50,7 +50,7 @@ int main()
 
             break;
         case 1:
-            DrawText("Hello, you're on level 1", 50, 50, 50, navyBlue);
+        
             player.drawPlayer();
             break;
         case 2:

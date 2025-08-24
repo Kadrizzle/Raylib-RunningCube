@@ -12,19 +12,19 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight, 
 
 void square::movePlayer()
 {
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_W))
     {
         y -= 2.0f;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_S))
     {
         y += 2.0f;
     }
-    if (IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(KEY_D))
     {
         x += 2.0f;
     }
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A))
     {
         x -= 2.0f;
     }
