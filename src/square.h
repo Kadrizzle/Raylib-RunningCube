@@ -8,13 +8,12 @@ extern int innerMapHeight;
 
 class square
 {
-private:
+public:
     float x;
     float y;
     int width;
     int height;
 
-public:
     square(float squareX, float squareY, int squareWidth, int squareHeight);
 
     void movePlayer();

@@ -18,7 +18,7 @@ void square::movePlayer()
         }
         else
         {
-            y -= 5.0f;
+            y -= 2.0f;
         }
     }
     if (IsKeyDown(KEY_DOWN))
@@ -28,7 +28,7 @@ void square::movePlayer()
         }
         else
         {
-            y += 5.0f;
+            y += 2.0f;
         }
     }
     if (IsKeyDown(KEY_RIGHT))
@@ -38,7 +38,7 @@ void square::movePlayer()
         }
         else
         {
-            x += 5.0f;
+            x += 2.0f;
         }
     }
     if (IsKeyDown(KEY_LEFT))
@@ -48,7 +48,7 @@ void square::movePlayer()
         }
         else
         {
-            x -= 5.0f;
+            x -= 2.0f;
         }
     }
 }
