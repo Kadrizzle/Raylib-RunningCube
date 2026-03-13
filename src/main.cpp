@@ -16,6 +16,8 @@ int innerMapHeight = mapHeight - 12;
 int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
+
+    //Player variables
     int playerWidth = 30;
     int playerHeight = 30;
     square player(innerMapX + 10, ((innerMapY + innerMapHeight) / 2) + playerHeight + 1, playerWidth, playerHeight);
@@ -35,9 +37,14 @@ int main()
         case 1:
             player.movePlayer();
             player.mapCollisionDetection();
+
+            //If the player hits the center of the right wall (I will be drawing this on the map to make it more clear)
+            if((player.x + 30 == (innerMapX + innerMapWidth)) && (player.y + 30 > ((innerMapY + innerMapHeight) / 2) + 30 && player.y < ((innerMapY + innerMapHeight) / 2) + 60)){
+                currentLevel = 2;
+            }
             break;
         case 2:
-
+            DrawText("You made it to level 2", (screenWidth / 2) - 150, screenHeight - (screenHeight - 20), 45, navyBlue);
             break;
         case 3:
 
@@ -64,6 +71,9 @@ int main()
         case 1:
             DrawRectangle(mapX, mapY, mapWidth, mapHeight, BLACK);
             DrawRectangle(innerMapX, innerMapY, innerMapWidth, innerMapHeight, GREEN);
+
+            //Finish line
+            DrawRectangle(innerMapX + innerMapWidth, ((innerMapY + innerMapHeight) / 2) + 30, 15, 30, BLUE);
 
             // Printing my inner map and player variables to debug
             // Use this for every level to make debugging easier
