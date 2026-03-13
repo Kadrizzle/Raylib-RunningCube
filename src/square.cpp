@@ -9,47 +9,50 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
     height = squareHeight;
 }
 
+//This function MUST run before "movePlayer" function, else it will not work
+void square::mapCollisionDetection()
+{
+    //Top wall
+    if(y < innerMapY)
+    {
+        y = innerMapY;
+    }
+
+    //Bottom wall - FIX THIS
+    if(y + 30 > innerMapY + innerMapHeight)
+    {
+        y = (innerMapY + innerMapHeight) - 30;
+    }
+
+    //Left wall
+    if(x < innerMapX)
+    {
+        x = innerMapX;
+    }
+
+    //Right wall - FIX THIS
+    if(x + 30 > innerMapX + innerMapWidth)
+    {
+        x = (innerMapX + innerMapWidth) - 30;
+    }
+}
+
 void square::movePlayer()
 {
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_W))
     {
-        if (mapCollisionDetection() == 2)
-        {
-        }
-        else
-        {
-            y -= 2.0f;
-        }
+        y -= velocityY;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_S))
     {
-        if (mapCollisionDetection() == 4)
-        {
-        }
-        else
-        {
-            y += 2.0f;
-        }
+        y += velocityY;
     }
-    if (IsKeyDown(KEY_RIGHT))
-    {
-        if (mapCollisionDetection() == 3)
-        {
-        }
-        else
-        {
-            x += 2.0f;
-        }
+    if (IsKeyDown(KEY_D)){
+        x += velocityX;
     }
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A))
     {
-        if (mapCollisionDetection() == 1)
-        {
-        }
-        else
-        {
-            x -= 2.0f;
-        }
+        x -= velocityX;
     }
 }
 
@@ -57,29 +60,4 @@ void square::drawPlayer()
 {
     DrawRectangle(x, y, width, height, BLACK);                // Outside border for player
     DrawRectangle(x + 3, y + 3, width - 6, height - 6, BLUE); // Inside of the border
-}
-
-int square::mapCollisionDetection()
-{
-    // 0 - no collision; 1 - left collision; 2 - top collision; 3 - right collision; 4 - bottom collision
-    if (x == innerMapX)
-    {
-        return 1; // Left
-    }
-    if (y == innerMapY)
-    {
-        return 2; // Top
-    }
-    if (x + width == innerMapX + innerMapWidth)
-    {
-        return 3; // Right
-    }
-    if (y + height == innerMapY + innerMapHeight)
-    {
-        return 4; // Bottom
-    }
-    else
-    {
-        return 0;
-    }
 }

@@ -13,12 +13,14 @@ public:
     float y;
     int width;
     int height;
+    float velocityX = 3.0f;
+    float velocityY = 3.0f;
 
     square(float squareX, float squareY, int squareWidth, int squareHeight);
 
     void movePlayer();
 
-    int mapCollisionDetection();
+    void mapCollisionDetection();
 
     void drawPlayer();
 };

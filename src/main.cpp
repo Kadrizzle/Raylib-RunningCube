@@ -34,6 +34,7 @@ int main()
             break;
         case 1:
             player.movePlayer();
+            player.mapCollisionDetection();
             break;
         case 2:
 
@@ -47,7 +48,7 @@ int main()
         }
 
         BeginDrawing();
-
+        ClearBackground(GRAY);
         switch (currentLevel)
         {
         case 0:
@@ -87,7 +88,6 @@ int main()
 
             break;
         }
-        ClearBackground(GRAY);
         EndDrawing();
     }
 
