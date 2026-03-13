@@ -1,36 +1,63 @@
 #include "square.h"
 #include <raylib.h>
 
-square::square(float squareX, float squareY, int squareWidth, int squareHeight, Color squareColor)
+square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 {
     x = squareX;
     y = squareY;
     width = squareWidth;
     height = squareHeight;
-    color = squareColor;
+}
+
+//This function MUST run before "movePlayer" function, else it will not work
+void square::mapCollisionDetection()
+{
+    //Top wall
+    if(y < innerMapY)
+    {
+        y = innerMapY;
+    }
+
+    //Bottom wall - FIX THIS
+    if(y + 30 > innerMapY + innerMapHeight)
+    {
+        y = (innerMapY + innerMapHeight) - 30;
+    }
+
+    //Left wall
+    if(x < innerMapX)
+    {
+        x = innerMapX;
+    }
+
+    //Right wall - FIX THIS
+    if(x + 30 > innerMapX + innerMapWidth)
+    {
+        x = (innerMapX + innerMapWidth) - 30;
+    }
 }
 
 void square::movePlayer()
 {
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_W))
     {
-        y -= 2.0f;
+        y -= velocityY;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_S))
     {
-        y += 2.0f;
+        y += velocityY;
     }
-    if (IsKeyDown(KEY_RIGHT))
-    {
-        x += 2.0f;
+    if (IsKeyDown(KEY_D)){
+        x += velocityX;
     }
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A))
     {
-        x -= 2.0f;
+        x -= velocityX;
     }
 }
 
 void square::drawPlayer()
 {
-    DrawRectangle(x, y, width, height, color);
+    DrawRectangle(x, y, width, height, BLACK);                // Outside border for player
+    DrawRectangle(x + 3, y + 3, width - 6, height - 6, BLUE); // Inside of the border
 }

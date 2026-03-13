@@ -1,24 +1,26 @@
 #pragma once
-#include <raylib.h>
+
+// Sharing these variables from main to my square class
+extern int innerMapX;
+extern int innerMapY;
+extern int innerMapWidth;
+extern int innerMapHeight;
 
 class square
 {
-private:
+public:
     float x;
     float y;
     int width;
     int height;
-    Color color;
+    float velocityX = 3.0f;
+    float velocityY = 3.0f;
 
-public:
-    square(float squareX, float squareY, int squareWidth, int squareHeight, Color color);
+    square(float squareX, float squareY, int squareWidth, int squareHeight);
 
     void movePlayer();
 
-
-    bool mapCollisionDetection();
-
+    void mapCollisionDetection();
 
     void drawPlayer();
-
 };

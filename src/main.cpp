@@ -1,13 +1,24 @@
 #include <raylib.h>
 #include "square.h"
 
+// Defining these outside of main so they'll be global
+int screenWidth = 1200;
+int screenHeight = 600;
+int mapX = (screenWidth / 6);
+int mapY = (screenHeight / 6);
+int mapWidth = screenWidth - (mapX * 2);
+int mapHeight = screenHeight - (mapY * 2);
+int innerMapX = mapX + 6;
+int innerMapY = mapY + 6;
+int innerMapWidth = mapWidth - 12;
+int innerMapHeight = mapHeight - 12;
+
 int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
-
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
-    square player(100, 100, 50, 50, BLUE);
+    int playerWidth = 30;
+    int playerHeight = 30;
+    square player(innerMapX + 10, ((innerMapY + innerMapHeight) / 2) + playerHeight + 1, playerWidth, playerHeight);
 
     int currentLevel = 0;
 
@@ -23,6 +34,7 @@ int main()
             break;
         case 1:
             player.movePlayer();
+            player.mapCollisionDetection();
             break;
         case 2:
 
@@ -36,7 +48,7 @@ int main()
         }
 
         BeginDrawing();
-
+        ClearBackground(GRAY);
         switch (currentLevel)
         {
         case 0:
@@ -50,7 +62,20 @@ int main()
 
             break;
         case 1:
-            DrawText("Hello, you're on level 1", 50, 50, 50, navyBlue);
+            DrawRectangle(mapX, mapY, mapWidth, mapHeight, BLACK);
+            DrawRectangle(innerMapX, innerMapY, innerMapWidth, innerMapHeight, GREEN);
+
+            // Printing my inner map and player variables to debug
+            // Use this for every level to make debugging easier
+            DrawText(TextFormat("Left wall: %i", innerMapX), 5, 5, 20, BLACK);
+            DrawText(TextFormat("Top wall: %i", innerMapY), 5, 25, 20, BLACK);
+            DrawText(TextFormat("Right wall: %i", innerMapX + innerMapWidth), 5, 45, 20, BLACK);
+            DrawText(TextFormat("Bottom wall: %i", innerMapY + innerMapHeight), 5, 65, 20, BLACK);
+            DrawText(TextFormat("Player x: %.2f", player.x), 5, 85, 20, BLACK);
+            DrawText(TextFormat("Player y: %.2f", player.y), 5, 105, 20, BLACK);
+            DrawText(TextFormat("Right: %.2f", player.x + player.width), 5, 125, 20, BLACK);
+            DrawText(TextFormat("Bottom: %.2f", player.y + player.height), 5, 145, 20, BLACK);
+
             player.drawPlayer();
             break;
         case 2:
@@ -63,7 +88,6 @@ int main()
 
             break;
         }
-        ClearBackground(BEIGE);
         EndDrawing();
     }
 
