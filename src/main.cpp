@@ -1,6 +1,9 @@
 #include <raylib.h>
 #include "square.h"
+#include <iostream>
+#include <vector>
 
+//---------------------------------------------------------------------------------------------------------------------------
 // Defining these outside of main so they'll be global
 int screenWidth = 1200;
 int screenHeight = 600;
@@ -12,15 +15,32 @@ int innerMapX = mapX + 6;
 int innerMapY = mapY + 6;
 int innerMapWidth = mapWidth - 12;
 int innerMapHeight = mapHeight - 12;
+//---------------------------------------------------------------------------------------------------------------------------
 
 int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
 
+//---------------------------------------------------------------------------------------------------------------------------
     //Player variables
     int playerWidth = 30;
     int playerHeight = 30;
     square player(innerMapX + 10, ((innerMapY + innerMapHeight) / 2) + playerHeight + 1, playerWidth, playerHeight);
+//---------------------------------------------------------------------------------------------------------------------------
+
+    //Making the enemies for the first level
+    int xPositionForEnemies = 291;
+    int yPositionForEnemies = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
+    int enemyWidth = 30;
+    int enemyHeight = 30;
+    std::vector<square> enemies;
+
+    for(int i = 0; i < 10; i++){
+        square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
+        enemies.push_back(enemy);
+        xPositionForEnemies+=70;
+    }
+//---------------------------------------------------------------------------------------------------------------------------
 
     int currentLevel = 0;
 
@@ -37,6 +57,9 @@ int main()
         case 1:
             player.movePlayer();
             player.mapCollisionDetection();
+            for(int i = 0; i < enemies.size(); i++){
+                enemies[i].moveEnemy();
+            }
 
             //If the player hits the center of the right wall (I will be drawing this on the map to make it more clear)
             if((player.x + 30 == (innerMapX + innerMapWidth)) && (player.y + 30 > ((innerMapY + innerMapHeight) / 2) + 30 && player.y < ((innerMapY + innerMapHeight) / 2) + 60)){
@@ -87,6 +110,10 @@ int main()
             DrawText(TextFormat("Bottom: %.2f", player.y + player.height), 5, 145, 20, BLACK);
 
             player.drawPlayer();
+            for(int i = 0; i < enemies.size(); i++){
+                enemies[i].drawEnemy();
+            }
+
             break;
         case 2:
 

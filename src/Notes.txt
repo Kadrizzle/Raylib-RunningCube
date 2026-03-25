@@ -1,0 +1,24 @@
+Notes
+
+Left wall = 206
+
+Right wall = 994
+
+Player is 30 pixels wide
+
+the whole width of the map is 994-206=788
+
+The player spawns 10 pixels off the left wall and is 30 pixels wide so start the first enemy at 206 + 50 = 256
+
+since you know this you can spread the enemies out by 35 pixels (30 for the character and 5 as a fudge factor)??? This will be a number that you will play with
+
+Add 35 to 256 until you get to (994-50)=944 or close to it. There should be 20 enemies on this level
+
+C:\Users\lanek\OneDrive\Documents\All Things Code\Raylib-RunningCube\src\main.cpp
+
+
+3/24
+This thought just popped up in my head, I'm not going to have to use this now, but whenever you make the level where you have circles moving in a
+circular direction, you are going to essentially have a middle point and then from there you will have a different radius for each rotating circle. The radius
+increases with each sequential circle. You will be drawing the rotating circles on different x,y coordinates each game loop. You will essentially have 
+an "invisible" circle that the "rotating circles" revolve around.
