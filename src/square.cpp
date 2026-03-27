@@ -18,7 +18,7 @@ void square::mapCollisionDetection()
         y = innerMapY;
     }
 
-    //Bottom wall - FIX THIS
+    //Bottom wall
     if(y + 30 > innerMapY + innerMapHeight)
     {
         y = (innerMapY + innerMapHeight) - 30;
@@ -30,7 +30,7 @@ void square::mapCollisionDetection()
         x = innerMapX;
     }
 
-    //Right wall - FIX THIS
+    //Right wall
     if(x + 30 > innerMapX + innerMapWidth)
     {
         x = (innerMapX + innerMapWidth) - 30;
@@ -61,3 +61,26 @@ void square::drawPlayer()
     DrawRectangle(x, y, width, height, BLACK);                // Outside border for player
     DrawRectangle(x + 3, y + 3, width - 6, height - 6, BLUE); // Inside of the border
 }
+
+void square::drawEnemy()
+{
+    DrawRectangle(x, y, width, height, BLACK);               
+    DrawRectangle(x + 3, y + 3, width - 6, height - 6, RED);   
+}
+
+void square::moveEnemy()
+{
+    if(movingDown == true){
+        y += velocityY + 3.0;
+    }else{
+        y -= velocityY + 3.0;
+    }
+
+    if(y + 30 > innerMapY + innerMapHeight){
+        movingDown = false;
+    }
+    if(y < innerMapY){
+        movingDown = true;
+    }
+}
+

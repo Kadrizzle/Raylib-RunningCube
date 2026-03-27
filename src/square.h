@@ -15,6 +15,7 @@ public:
     int height;
     float velocityX = 3.0f;
     float velocityY = 3.0f;
+    bool movingDown = true;
 
     square(float squareX, float squareY, int squareWidth, int squareHeight);
 
@@ -23,4 +24,8 @@ public:
     void mapCollisionDetection();
 
     void drawPlayer();
+
+    void drawEnemy();
+
+    void moveEnemy();
 };
