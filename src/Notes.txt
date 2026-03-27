@@ -22,3 +22,8 @@ This thought just popped up in my head, I'm not going to have to use this now, b
 circular direction, you are going to essentially have a middle point and then from there you will have a different radius for each rotating circle. The radius
 increases with each sequential circle. You will be drawing the rotating circles on different x,y coordinates each game loop. You will essentially have 
 an "invisible" circle that the "rotating circles" revolve around.
+
+
+ - COLLISION DETECTION: make a function where you have to pass throught the x and y coordinates for player and enemy. Greater than x but less than x+width
+ if(enemy.x > player.x && enemy.x < player.x+player.width) ----> THEN player dies... restart
+

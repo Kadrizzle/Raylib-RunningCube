@@ -16,6 +16,19 @@ int innerMapY = mapY + 6;
 int innerMapWidth = mapWidth - 12;
 int innerMapHeight = mapHeight - 12;
 //---------------------------------------------------------------------------------------------------------------------------
+//functions()
+
+bool enemyCollisionDetection(square enemy, square player)
+{
+    if(((enemy.x > player.x) && (enemy.x < (player.x + player.width)) || //left side of enemy
+        (enemy.x + 30 > player.x) && (enemy.x + 30 < (player.x + player.width))) && //right side of enemy
+        ((enemy.y > player.y) && (enemy.y < (player.y + 30)) || //top side of enemy
+        (enemy.y + 30 > player.y) && (enemy.y + 30 < (player.y + 30)))) //bottom side of enemy
+    {
+        return true;
+    }
+    else return false;
+}
 
 int main()
 {
@@ -53,12 +66,20 @@ int main()
         {
         case 0:
 
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                currentLevel = 1;
+            }
             break;
         case 1:
             player.movePlayer();
             player.mapCollisionDetection();
             for(int i = 0; i < enemies.size(); i++){
                 enemies[i].moveEnemy();
+                if(enemyCollisionDetection(enemies[i],player) == true)
+                {
+                    currentLevel = 5;
+                }
             }
 
             //If the player hits the center of the right wall (I will be drawing this on the map to make it more clear)
@@ -75,6 +96,16 @@ int main()
         case 4:
 
             break;
+        case 5:
+            //player has died from collision
+            if(IsKeyPressed(KEY_ENTER))
+            {
+                player.x = innerMapX + 10;
+                player.y = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
+                currentLevel = 1;
+            }
+
+            break;
         }
 
         BeginDrawing();
@@ -84,11 +115,6 @@ int main()
         case 0:
             DrawText("Square Runner", (screenWidth / 2) - 150, screenHeight - (screenHeight - 20), 45, navyBlue);
             DrawText("Press the enter key to start the game", (screenWidth / 2) - 300, screenHeight - (screenHeight - 80), 30, navyBlue);
-
-            if (IsKeyPressed(KEY_ENTER))
-            {
-                currentLevel = 1;
-            }
 
             break;
         case 1:
@@ -100,14 +126,14 @@ int main()
 
             // Printing my inner map and player variables to debug
             // Use this for every level to make debugging easier
-            DrawText(TextFormat("Left wall: %i", innerMapX), 5, 5, 20, BLACK);
-            DrawText(TextFormat("Top wall: %i", innerMapY), 5, 25, 20, BLACK);
-            DrawText(TextFormat("Right wall: %i", innerMapX + innerMapWidth), 5, 45, 20, BLACK);
-            DrawText(TextFormat("Bottom wall: %i", innerMapY + innerMapHeight), 5, 65, 20, BLACK);
-            DrawText(TextFormat("Player x: %.2f", player.x), 5, 85, 20, BLACK);
-            DrawText(TextFormat("Player y: %.2f", player.y), 5, 105, 20, BLACK);
-            DrawText(TextFormat("Right: %.2f", player.x + player.width), 5, 125, 20, BLACK);
-            DrawText(TextFormat("Bottom: %.2f", player.y + player.height), 5, 145, 20, BLACK);
+            // DrawText(TextFormat("Left wall: %i", innerMapX), 5, 5, 20, BLACK);
+            // DrawText(TextFormat("Top wall: %i", innerMapY), 5, 25, 20, BLACK);
+            // DrawText(TextFormat("Right wall: %i", innerMapX + innerMapWidth), 5, 45, 20, BLACK);
+            // DrawText(TextFormat("Bottom wall: %i", innerMapY + innerMapHeight), 5, 65, 20, BLACK);
+            // DrawText(TextFormat("Player x: %.2f", player.x), 5, 85, 20, BLACK);
+            // DrawText(TextFormat("Player y: %.2f", player.y), 5, 105, 20, BLACK);
+            // DrawText(TextFormat("Right: %.2f", player.x + player.width), 5, 125, 20, BLACK);
+            // DrawText(TextFormat("Bottom: %.2f", player.y + player.height), 5, 145, 20, BLACK);
 
             player.drawPlayer();
             for(int i = 0; i < enemies.size(); i++){
@@ -123,6 +149,11 @@ int main()
             break;
         case 4:
 
+            break;
+
+        case 5:
+            DrawText("You Died", (screenWidth / 2) - 150, screenHeight - (screenHeight - 20), 60, navyBlue);
+            DrawText("Press Enter to restart", (screenWidth / 2) - 150, screenHeight - (screenHeight - 20) + 50, 45, navyBlue);
             break;
         }
         EndDrawing();

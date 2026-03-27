@@ -71,9 +71,9 @@ void square::drawEnemy()
 void square::moveEnemy()
 {
     if(movingDown == true){
-        y += velocityY;
+        y += velocityY + 3.0;
     }else{
-        y -= velocityY;
+        y -= velocityY + 3.0;
     }
 
     if(y + 30 > innerMapY + innerMapHeight){
@@ -83,3 +83,4 @@ void square::moveEnemy()
         movingDown = true;
     }
 }
+
