@@ -51,7 +51,7 @@ int main()
     for(int i = 0; i < 10; i++){
         square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
         enemies.push_back(enemy);
-        xPositionForEnemies+=70;
+        xPositionForEnemies += 70;
     }
 //---------------------------------------------------------------------------------------------------------------------------
 
@@ -85,10 +85,31 @@ int main()
             //If the player hits the center of the right wall (I will be drawing this on the map to make it more clear)
             if((player.x + 30 == (innerMapX + innerMapWidth)) && (player.y + 30 > ((innerMapY + innerMapHeight) / 2) + 30 && player.y < ((innerMapY + innerMapHeight) / 2) + 60)){
                 currentLevel = 2;
+                enemies.clear(); //Wiping the enemy vector and making a new one from scratch below
+
+                xPositionForEnemies = 291;
+                for(int i = 0; i < 10; i++){
+                square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
+                enemies.push_back(enemy);
+                xPositionForEnemies += 70;
+                }    
+
+                //Resetting player back to starting position
+                player.x = innerMapX + 10;
+                player.y = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
+                
             }
             break;
         case 2:
-            DrawText("You made it to level 2", (screenWidth / 2) - 150, screenHeight - (screenHeight - 20), 45, navyBlue);
+            player.movePlayer();
+            player.mapCollisionDetection();
+
+            for(int i = 0; i < enemies.size(); i++){
+                if(enemyCollisionDetection(enemies[i],player) == true){
+                    currentLevel = 5;
+                }
+            }
+            
             break;
         case 3:
 
@@ -124,25 +145,26 @@ int main()
             //Finish line
             DrawRectangle(innerMapX + innerMapWidth, ((innerMapY + innerMapHeight) / 2) + 30, 15, 30, BLUE);
 
-            // Printing my inner map and player variables to debug
-            // Use this for every level to make debugging easier
-            // DrawText(TextFormat("Left wall: %i", innerMapX), 5, 5, 20, BLACK);
-            // DrawText(TextFormat("Top wall: %i", innerMapY), 5, 25, 20, BLACK);
-            // DrawText(TextFormat("Right wall: %i", innerMapX + innerMapWidth), 5, 45, 20, BLACK);
-            // DrawText(TextFormat("Bottom wall: %i", innerMapY + innerMapHeight), 5, 65, 20, BLACK);
-            // DrawText(TextFormat("Player x: %.2f", player.x), 5, 85, 20, BLACK);
-            // DrawText(TextFormat("Player y: %.2f", player.y), 5, 105, 20, BLACK);
-            // DrawText(TextFormat("Right: %.2f", player.x + player.width), 5, 125, 20, BLACK);
-            // DrawText(TextFormat("Bottom: %.2f", player.y + player.height), 5, 145, 20, BLACK);
-
             player.drawPlayer();
+
             for(int i = 0; i < enemies.size(); i++){
                 enemies[i].drawEnemy();
             }
 
             break;
         case 2:
+            DrawRectangle(mapX, mapY, mapWidth, mapHeight, BLACK);
+            DrawRectangle(innerMapX, innerMapY, innerMapWidth, innerMapHeight, GREEN);
 
+            //Finish line
+            DrawRectangle(innerMapX + innerMapWidth, ((innerMapY + innerMapHeight) / 2) + 30, 15, 30, BLUE);
+
+            player.drawPlayer();
+
+            for(int i = 0; i < enemies.size(); i++){
+                enemies[i].drawEnemy();
+            }
+            
             break;
         case 3:
 

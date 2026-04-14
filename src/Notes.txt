@@ -27,3 +27,18 @@ an "invisible" circle that the "rotating circles" revolve around.
  - COLLISION DETECTION: make a function where you have to pass throught the x and y coordinates for player and enemy. Greater than x but less than x+width
  if(enemy.x > player.x && enemy.x < player.x+player.width) ----> THEN player dies... restart
 
+
+ 4/7
+ Finally found the game on cool math games, so I will be using that as a reference. I'll make one or two more levels with the rectangular shaped map,
+ then I will learn how to make a map maker.
+
+
+4/13
+- Level 2 will have squares that will go the opposite directions. After this level is when I will start to learn how to make a map instead of drawing
+the map manually. This will probably be done with sprite sheets. Pacman was the same concept. Pacman behaves differently according to what part of 
+the sprite sheet he is in.
+
+- Once the player hits the finish line, current level equals 2, clear the enemy vector and rebuild a new one and put the player coordinates back
+at the starting position.
+
+- Alright, the initial setup of level 2 is done. Now you need to figure out how to get the enemies to move in opposite directions of each either
