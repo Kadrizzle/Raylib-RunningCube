@@ -30,6 +30,39 @@ bool enemyCollisionDetection(square enemy, square player)
     else return false;
 }
 
+bool movingUp = true;
+void moveEnemyLevelTwoEven(std::vector<square> enemies){
+    for(int i = 0; i < enemies.size(); i++){
+        if(i % 2 == 0){ //If enemy in vector is in an even spot
+            if(movingUp == true){
+                enemies[i].y -= enemies[i].velocityY;
+            }
+            else{
+                enemies[i].y += enemies[i].velocityY;
+            }
+
+            if(enemies[i].y < innerMapY){
+                movingUp = false;
+            }
+            if(enemies[i].y + 30 > innerMapY + innerMapHeight){
+                movingUp = true;
+            }
+        }
+    }
+}
+
+void moveEnemyLevelTwoOdd(std::vector<square> enemies){
+    for(int i = 0; i < enemies.size(); i++){
+        if(i % 2 == 1){ //if enemy in vector is in an odd spot
+            if(movingUp == true){
+                enemies[i].y += enemies[i].velocityY; //Odd wants to do the opposite of what even does. So, whenever moving variable is up, then odd enemies go down
+            }
+        }
+    }
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------------
 int main()
 {
     const Color navyBlue = {0, 0, 128, 255};
@@ -82,7 +115,7 @@ int main()
                 }
             }
 
-            //If the player hits the center of the right wall (I will be drawing this on the map to make it more clear)
+            //If the player hits the center of the right wall, which is the finish line (I will be drawing this on the map to make it more clear)
             if((player.x + 30 == (innerMapX + innerMapWidth)) && (player.y + 30 > ((innerMapY + innerMapHeight) / 2) + 30 && player.y < ((innerMapY + innerMapHeight) / 2) + 60)){
                 currentLevel = 2;
                 enemies.clear(); //Wiping the enemy vector and making a new one from scratch below
@@ -103,7 +136,8 @@ int main()
         case 2:
             player.movePlayer();
             player.mapCollisionDetection();
-
+            moveEnemyLevelTwoEven(enemies);
+            moveEnemyLevelTwoOdd(enemies);
             for(int i = 0; i < enemies.size(); i++){
                 if(enemyCollisionDetection(enemies[i],player) == true){
                     currentLevel = 5;

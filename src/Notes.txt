@@ -41,4 +41,14 @@ the sprite sheet he is in.
 - Once the player hits the finish line, current level equals 2, clear the enemy vector and rebuild a new one and put the player coordinates back
 at the starting position.
 
-- Alright, the initial setup of level 2 is done. Now you need to figure out how to get the enemies to move in opposite directions of each either
+- Alright, the initial setup of level 2 is done. Now you need to figure out how to get the enemies to move in opposite directions of each other. 
+Might have to make a separate function for this. Redundant code, but will get the job done.
+
+4/16
+- Alright, moving onto level 2. I'm thinking about putting the enemy moving function in main instead of in the player class.
+- First enemy will move up and then the movement will alternate after that
+- In the function I'll pass through the whole entire vector of enemies. Once I access the first enemy I'll move it up or down depending on a specific
+    condition. Maybe make a bool that says, "if the enemy is moving up make bool variable true, else make it false". Actually scratch that....
+    Alright, I think I figured it out. Before I begin looping through all the enemies when the level starts. I will give each enemy a "flag" The first 
+    enemy will have movingDown = false and then it alternates after that. This will be ....... Okay actually just figured it out now. Literally just
+    have two different functions for the even and odd enemies....... duh..
