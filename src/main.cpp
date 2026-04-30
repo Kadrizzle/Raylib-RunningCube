@@ -30,35 +30,54 @@ bool enemyCollisionDetection(square enemy, square player)
     else return false;
 }
 
-bool movingUp = true;
+bool movingUpEven = true;
 void moveEnemyLevelTwoEven(std::vector<square>& enemies){
     for(int i = 0; i < enemies.size(); i++){
-        if(i % 2 == 0){ //If enemy in vector is in an even spot
-            if(movingUp == true){
+        if(i % 2 == 0){
+            if(movingUpEven == true){
                 enemies[i].y -= 5.0f;
-            }
-            else if(movingUp == false){
+            } else {
                 enemies[i].y += 5.0f;
             }
+        }
+    }
 
+    for(int i = 0; i < enemies.size(); i++){
+        if(i % 2 == 0){
             if(enemies[i].y < innerMapY){
-                movingUp = false;
+                movingUpEven = false;
+                movingUpOdd = true;
+                break;
             }
             if(enemies[i].y + 30 > innerMapY + innerMapHeight){
-                movingUp = true;
+                movingUpEven = true;
+                movingUpOdd = false;
+                break;
             }
         }
     }
 }
 
+bool movingUpOdd = false;
 void moveEnemyLevelTwoOdd(std::vector<square>& enemies){
     for(int i = 0; i < enemies.size(); i++){
         if(i % 2 == 1){ //if enemy in vector is in an odd spot
-            if(movingUp == true){
+            if(movingUpOdd == false){
                 enemies[i].y += 5.0f; //Odd wants to do the opposite of what even does. So, whenever moving variable is up, then odd enemies go down
             }
-            else if(movingUp == false){
+            else{
                 enemies[i].y -= 5.0f;
+            }
+        }
+    }
+
+    for(int i = 0; i < enemies.size(); i++){
+        if(i % 2 == 1){
+            if(enemies[i].y + 30 > innerMapY + innerMapHeight){
+                movingUpOdd = true;
+            }
+            if(enemies[i].y < innerMapY){
+                movingUpOdd = false;
             }
         }
     }
