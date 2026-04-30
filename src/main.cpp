@@ -31,14 +31,14 @@ bool enemyCollisionDetection(square enemy, square player)
 }
 
 bool movingUp = true;
-void moveEnemyLevelTwoEven(std::vector<square> enemies){
+void moveEnemyLevelTwoEven(std::vector<square>& enemies){
     for(int i = 0; i < enemies.size(); i++){
         if(i % 2 == 0){ //If enemy in vector is in an even spot
             if(movingUp == true){
-                enemies[i].y -= enemies[i].velocityY;
+                enemies[i].y -= 5.0f;
             }
-            else{
-                enemies[i].y += enemies[i].velocityY;
+            else if(movingUp == false){
+                enemies[i].y += 5.0f;
             }
 
             if(enemies[i].y < innerMapY){
@@ -51,11 +51,14 @@ void moveEnemyLevelTwoEven(std::vector<square> enemies){
     }
 }
 
-void moveEnemyLevelTwoOdd(std::vector<square> enemies){
+void moveEnemyLevelTwoOdd(std::vector<square>& enemies){
     for(int i = 0; i < enemies.size(); i++){
         if(i % 2 == 1){ //if enemy in vector is in an odd spot
             if(movingUp == true){
-                enemies[i].y += enemies[i].velocityY; //Odd wants to do the opposite of what even does. So, whenever moving variable is up, then odd enemies go down
+                enemies[i].y += 5.0f; //Odd wants to do the opposite of what even does. So, whenever moving variable is up, then odd enemies go down
+            }
+            else if(movingUp == false){
+                enemies[i].y -= 5.0f;
             }
         }
     }
@@ -88,7 +91,7 @@ int main()
     }
 //---------------------------------------------------------------------------------------------------------------------------
 
-    int currentLevel = 0;
+    int currentLevel = 2;
 
     InitWindow(screenWidth, screenHeight, "Square Runner");
     SetTargetFPS(60);
@@ -125,7 +128,7 @@ int main()
                 square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
                 enemies.push_back(enemy);
                 xPositionForEnemies += 70;
-                }    
+            }    
 
                 //Resetting player back to starting position
                 player.x = innerMapX + 10;
