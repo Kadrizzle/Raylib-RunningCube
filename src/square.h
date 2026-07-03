@@ -13,8 +13,8 @@ public:
     float y;
     int width;
     int height;
-    float velocityX = 3.0f;
-    float velocityY = 3.0f;
+    float velocityX = 2.6f;
+    float velocityY = 2.6f;
     bool movingDown = true;
 
     square(float squareX, float squareY, int squareWidth, int squareHeight);
