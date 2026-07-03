@@ -83,4 +83,3 @@ void square::moveEnemy()
         movingDown = true;
     }
 }
-
