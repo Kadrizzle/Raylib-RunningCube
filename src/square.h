@@ -1,4 +1,6 @@
 #pragma once
+#include "map.h";
+
 
 // Sharing these variables from main to my square class
 extern int innerMapX;
@@ -21,11 +23,23 @@ public:
 
     void movePlayer();
 
-    void mapCollisionDetection();
+    void mapCollisionDetection(int currentMap[mapRows][mapCols]); //Have to pass through the level map so player can see the walls
 
     void drawPlayer();
 
     void drawEnemy();
 
     void moveEnemy();
+
+    int getBottomRightXCoord();
+
+    int getBottomRightYCoord();
+
+    int getTileForTopLeftX();
+
+    int getTileForTopLeftY();
+
+    int getTileForBottomRightX();
+
+    int getTileForBottomRightY();
 };

@@ -10,31 +10,33 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 }
 
 //This function MUST run before "movePlayer" function, else it will not work
-void square::mapCollisionDetection()
+void square::mapCollisionDetection(int map[mapRows][mapCols])
 {
-    //Top wall
-    if(y < innerMapY)
-    {
-        y = innerMapY;
-    }
+    // //Top wall
+    // if(y < innerMapY)
+    // {
+    //     y = innerMapY;
+    // }
 
-    //Bottom wall
-    if(y + 30 > innerMapY + innerMapHeight)
-    {
-        y = (innerMapY + innerMapHeight) - 30;
-    }
+    // //Bottom wall
+    // if(y + 30 > innerMapY + innerMapHeight)
+    // {
+    //     y = (innerMapY + innerMapHeight) - 30;
+    // }
 
-    //Left wall
-    if(x < innerMapX)
-    {
-        x = innerMapX;
-    }
+    // //Left wall
+    // if(x < innerMapX)
+    // {
+    //     x = innerMapX;
+    // }
 
-    //Right wall
-    if(x + 30 > innerMapX + innerMapWidth)
-    {
-        x = (innerMapX + innerMapWidth) - 30;
-    }
+    // //Right wall
+    // if(x + 30 > innerMapX + innerMapWidth)
+    // {
+    //     x = (innerMapX + innerMapWidth) - 30;
+    // }
+    
+
 }
 
 void square::movePlayer()
@@ -82,4 +84,38 @@ void square::moveEnemy()
     if(y < innerMapY){
         movingDown = true;
     }
+}
+ 
+//All of the get functions below are for collision detection. Will need to track these values for collision detection to work properly
+int square::getBottomRightXCoord()
+{
+    return x + width;
+}
+
+int square::getBottomRightYCoord()
+{
+    return y + height;
+}
+
+//Tile size is 40 that is why I'm dividing by this number. Quick example below to get a better understanding
+//Let's say the x value of the player is 110. 110/40 = 2 ---> This means the player is in tile 2 which will be col2. 
+//Refer to lines 19 and 20 in map.cpp... X value is the column and Y value is the row
+int square::getTileForTopLeftX()
+{
+    return x/40;
+}
+
+int square::getTileForTopLeftY()
+{
+    return y/40;
+}
+
+int square::getTileForBottomRightX()
+{
+    return getBottomRightXCoord()/40;
+}
+
+int square::getTileForBottomRightY()
+{
+    return getBottomRightYCoord()/40;
 }

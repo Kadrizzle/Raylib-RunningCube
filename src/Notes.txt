@@ -105,3 +105,41 @@ according to where that value is. Refer to the notes above.
 -UPDATE: bottom wall and right wall works. Nice!! On to debugging and figuring out why the top and left does not work. Might be because of the way im referencing the values in grid...
 we shall see.
 
+8/3
+The wall drawing functionality is now fixed (from the short testing that I did). Moving onto collision. 
+
+The player will need a way to communicate with the 2 dimensional array. 
+
+The player will have four different points. It would be better if the player had two points, one on the top left which could check top and left
+collision and one on the bottom right which could check bottom and right collision, but I'll do four points for now cause it would make the most 
+sense in my head. Pic below illustrates what this would look like. 
+
+
+DISREGARD EVERYTHING UNTIL LINE 134
+While the player is moving around, these four points will:
+    - First, figure out which tile they are in. This entails converting the pixel position back to a tile position
+    - Second, once you figure out what tile position it is in, then you will check the direction that the point is supposed to check. For example,
+      the left point on the player needs to check the tile to the left of whatever tile it is currently in.
+
+
+                                        --------o--------
+                                        |               |
+                                        |               |
+                                        o               o
+                                        |               |
+                                        |               |
+                                        |               |
+                                        --------o--------
+
+After looking at this further, this just over complicates things. I'll stick with the two coordinates, top left and bottom right corners of
+the square. For the top left corner, you can just reference the x and y value in the square class. For the bottom right corner make some get()
+functions to return these values.
+
+1. Grab top left and bottom right coordinates of player - DONE
+2. Make get() functions that finds the tile of each coordinate - DONE
+3. Make the collision detection function
+    - IF (a specific coordinate is in said tile){
+        Check the respective value in the 2d array
+    }
+
+
