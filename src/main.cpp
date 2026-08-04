@@ -214,7 +214,8 @@ int main()
             currentMap = &editorMap;
 
             player.movePlayer();
-
+            DrawRectangle(300, 300, tileSize, 30, BLACK);
+            DrawRectangle(120, 120, 5, tileSize, BLACK);
             // Tile selection
             if (IsKeyPressed(KEY_ONE))   selectedTile = tileEmpty;
             if (IsKeyPressed(KEY_TWO))   selectedTile = tileStart;
@@ -231,8 +232,19 @@ int main()
                 if (mouseRow >= 0 && mouseRow < mapRows &&
                     mouseCol >= 0 && mouseCol < mapCols)
                 {
-                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)){
                         editorMap.grid[mouseRow][mouseCol] = selectedTile;
+                        for(int i = 0; i < 35; i++){
+                            std::cout << "-";
+                        }
+                        std::cout << std::endl;
+                        for(int i = 0; i < mapRows; i++){
+                            for(int j = 0; j < mapCols; j++){
+                                std::cout << currentMap->grid[i][j] << " "; //Visualizing the map in terminal
+                            }
+                            std::cout << std::endl;
+                        }
+                    }
                     if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
                         editorMap.grid[mouseRow][mouseCol] = tileEmpty;
                 }
