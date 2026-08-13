@@ -2,11 +2,10 @@
 #include "map.h";
 
 
-// Sharing these variables from main to my square class
-extern int innerMapX;
-extern int innerMapY;
-extern int innerMapWidth;
-extern int innerMapHeight;
+// Sharing these variables from main to my square header
+extern int screenWidth;
+extern int screenHeight;
+
 
 class square
 {
@@ -23,13 +22,11 @@ public:
 
     void movePlayer();
 
-    void mapCollisionDetection(int currentMap[mapRows][mapCols]); //Have to pass through the level map so player can see the walls
+    void mapCollisionDetection(Map* map, square& Player); //Have to pass through the level map so player can see the walls
 
     void drawPlayer();
 
     void drawEnemy();
-
-    void moveEnemy();
 
     int getBottomRightXCoord();
 

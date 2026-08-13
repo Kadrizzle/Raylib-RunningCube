@@ -10,33 +10,69 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 }
 
 //This function MUST run before "movePlayer" function, else it will not work
-void square::mapCollisionDetection(int map[mapRows][mapCols])
+void square::mapCollisionDetection(Map* map, square& player)
 {
-    // //Top wall
-    // if(y < innerMapY)
-    // {
-    //     y = innerMapY;
-    // }
+    int coordinate;
+    //The four if statements below check the very outer edge of the screen
+    //Doing this so I don't get array index out of bounds for the map collision detecion logic below these
+    if(player.x < 0)//left
+    {
+        player.x = 0;
+    }
+    if(player.x > screenWidth - width)//right
+    {
+        player.x = screenWidth - width;
+    }
+    if(player.y < 0)//top
+    {
+        player.y = 0;
+    }
+    if(player.y > screenHeight - height)//bottom
+    {
+        player.y = screenHeight - height;
+    }
 
-    // //Bottom wall
-    // if(y + 30 > innerMapY + innerMapHeight)
-    // {
-    //     y = (innerMapY + innerMapHeight) - 30;
-    // }
-
-    // //Left wall
-    // if(x < innerMapX)
-    // {
-    //     x = innerMapX;
-    // }
-
-    // //Right wall
-    // if(x + 30 > innerMapX + innerMapWidth)
-    // {
-    //     x = (innerMapX + innerMapWidth) - 30;
-    // }
-    
-
+    //Starting r and c off at 1 and exiting 1 less than total rows and cols since we are already checking for those cases above
+    //If I don't do it like this, then I'll have redundant code. Need to think of another solution later
+    for(int r = 1; r < mapRows-1; r++)
+    {
+        for(int c = 1; c < mapCols-1; c++)
+        {
+            //Basically this is saying if the top left x coord of player is in said column AND the tile to the left = wall
+            if(getTileForTopLeftX() == c && map->grid[mapRows][mapCols-1] == tileWall)
+            {
+                coordinate = c * 40; //This gives us the x coordinate we need to compare to player's position
+                if(player.x < coordinate)
+                {
+                    player.x = coordinate;
+                } 
+            }
+            if(player.getTileForTopLeftY() == r && map->grid[mapRows-1][mapCols] == tileWall)
+            {
+                coordinate = r * 40;//This gives us the y coordinate we need to compare to player's position
+                if(player.y < coordinate)
+                {
+                    player.y = coordinate;
+                }
+            }
+            if(player.getTileForBottomRightX() == c && map->grid[mapRows][mapCols+1] == tileWall)
+            {
+                coordinate = c * 40;
+                if(player.x > coordinate)
+                {
+                    player.x = coordinate;
+                }
+            }
+            if(player.getTileForBottomRightY() == r && map->grid[mapRows+1][mapCols] == tileWall)
+            {
+                coordinate = r * 40;
+                if(player.y > coordinate)
+                {
+                    player.y = coordinate;
+                }
+            }
+        }
+    }
 }
 
 void square::movePlayer()
@@ -68,22 +104,6 @@ void square::drawEnemy()
 {
     DrawRectangle(x, y, width, height, BLACK);               
     DrawRectangle(x + 3, y + 3, width - 6, height - 6, RED);   
-}
-
-void square::moveEnemy()
-{
-    if(movingDown == true){
-        y += velocityY + 3.0;
-    }else{
-        y -= velocityY + 3.0;
-    }
-
-    if(y + 30 > innerMapY + innerMapHeight){
-        movingDown = false;
-    }
-    if(y < innerMapY){
-        movingDown = true;
-    }
 }
  
 //All of the get functions below are for collision detection. Will need to track these values for collision detection to work properly

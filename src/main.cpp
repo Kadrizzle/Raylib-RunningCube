@@ -8,14 +8,6 @@
 // Defining these outside of main so they'll be global
 int screenWidth = 1200;
 int screenHeight = 600;
-int mapX = (screenWidth / 6);
-int mapY = (screenHeight / 6);
-int mapWidth = screenWidth - (mapX * 2);
-int mapHeight = screenHeight - (mapY * 2);
-int innerMapX = mapX + 6;
-int innerMapY = mapY + 6;
-int innerMapWidth = mapWidth - 12;
-int innerMapHeight = mapHeight - 12;
 //---------------------------------------------------------------------------------------------------------------------------
 //functions()
 
@@ -30,59 +22,6 @@ bool enemyCollisionDetection(square enemy, square player)
     }
     else return false;
 }
-
-// bool movingUpEven = true;
-// void moveEnemyLevelTwoEven(std::vector<square>& enemies){
-//     for(int i = 0; i < enemies.size(); i++){
-//         if(i % 2 == 0){
-//             if(movingUpEven == true){
-//                 enemies[i].y -= 5.0f;
-//             } else {
-//                 enemies[i].y += 5.0f;
-//             }
-//         }
-//     }
-
-//     for(int i = 0; i < enemies.size(); i++){
-//         if(i % 2 == 0){
-//             if(enemies[i].y < innerMapY){
-//                 movingUpEven = false;
-//                 movingUpOdd = true;
-//                 break;
-//             }
-//             if(enemies[i].y + 30 > innerMapY + innerMapHeight){
-//                 movingUpEven = true;
-//                 movingUpOdd = false;
-//                 break;
-//             }
-//         }
-//     }
-// }
-
-// bool movingUpOdd = false;
-// void moveEnemyLevelTwoOdd(std::vector<square>& enemies){
-//     for(int i = 0; i < enemies.size(); i++){
-//         if(i % 2 == 1){ //if enemy in vector is in an odd spot
-//             if(movingUpOdd == false){
-//                 enemies[i].y += 5.0f; //Odd wants to do the opposite of what even does. So, whenever moving variable is up, then odd enemies go down
-//             }
-//             else{
-//                 enemies[i].y -= 5.0f;
-//             }
-//         }
-//     }
-
-//     for(int i = 0; i < enemies.size(); i++){
-//         if(i % 2 == 1){
-//             if(enemies[i].y + 30 > innerMapY + innerMapHeight){
-//                 movingUpOdd = true;
-//             }
-//             if(enemies[i].y < innerMapY){
-//                 movingUpOdd = false;
-//             }
-//         }
-//     }
-// }
 
 int emptyLayout[mapRows][mapCols] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -115,21 +54,7 @@ int main()
     //Player variables
     int playerWidth = 30;
     int playerHeight = 30;
-    square player(innerMapX + 10, ((innerMapY + innerMapHeight) / 2) + playerHeight + 1, playerWidth, playerHeight);
-//---------------------------------------------------------------------------------------------------------------------------
-
-    //Making the enemies for the first level
-    int xPositionForEnemies = 291;
-    int yPositionForEnemies = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
-    int enemyWidth = 30;
-    int enemyHeight = 30;
-    std::vector<square> enemies;
-
-    for(int i = 0; i < 10; i++){
-        square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
-        enemies.push_back(enemy);
-        xPositionForEnemies += 70;
-    }
+    square player(100, 100, playerWidth, playerHeight);
 //---------------------------------------------------------------------------------------------------------------------------
 
     int currentLevel = 100; // 99 is test level for all things testing
@@ -149,44 +74,9 @@ int main()
             }
             break;
         case 1:
-            // player.movePlayer();
-            // player.mapCollisionDetection();
-            // for(int i = 0; i < enemies.size(); i++){
-            //     enemies[i].moveEnemy();
-            //     if(enemyCollisionDetection(enemies[i],player) == true)
-            //     {
-            //         currentLevel = 5;
-            //     }
-            // }
 
-            // //If the player hits the center of the right wall, which is the finish line (I will be drawing this on the map to make it more clear)
-            // if((player.x + 30 == (innerMapX + innerMapWidth)) && (player.y + 30 > ((innerMapY + innerMapHeight) / 2) + 30 && player.y < ((innerMapY + innerMapHeight) / 2) + 60)){
-            //     currentLevel = 2;
-            //     enemies.clear(); //Wiping the enemy vector and making a new one from scratch below
-
-            //     xPositionForEnemies = 291;
-            //     for(int i = 0; i < 10; i++){
-            //     square enemy(xPositionForEnemies, yPositionForEnemies, enemyWidth, enemyHeight);
-            //     enemies.push_back(enemy);
-            //     xPositionForEnemies += 70;
-            // }    
-
-            //     //Resetting player back to starting position
-            //     player.x = innerMapX + 10;
-            //     player.y = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
-                
-            // }
             break;
         case 2:
-            // player.movePlayer();
-            // player.mapCollisionDetection();
-            // moveEnemyLevelTwoEven(enemies);
-            // moveEnemyLevelTwoOdd(enemies);
-            // for(int i = 0; i < enemies.size(); i++){
-            //     if(enemyCollisionDetection(enemies[i],player) == true){
-            //         currentLevel = 5;
-            //     }
-            // }
             
             break;
         case 3:
@@ -199,8 +89,6 @@ int main()
             //player has died from collision
             if(IsKeyPressed(KEY_ENTER))
             {
-                player.x = innerMapX + 10;
-                player.y = ((innerMapY + innerMapHeight) / 2) + playerHeight + 1;
                 currentLevel = 1;
             }
 
@@ -212,7 +100,7 @@ int main()
         
         case 100:
             currentMap = &editorMap;
-
+            player.mapCollisionDetection(currentMap,player);
             player.movePlayer();
             DrawRectangle(300, 300, tileSize, 30, BLACK);
             DrawRectangle(120, 120, 5, tileSize, BLACK);

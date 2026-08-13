@@ -143,3 +143,48 @@ functions to return these values.
     }
 
 
+8/4
+Starting off with the collision detection. Drawing a picture in paint right now to visualize the collision detection.
+As you are looping through the map you will check to see if the tile value after converting x and y coordinate for both points are in the map.
+
+        if(x == map[row][col]){
+            //int tile = map[row][col];
+            //int coordinate = tile * 40;
+            
+        }
+
+then you will check for collision based upon the tile that it is in. You will do [tile that coordinate is in] * 40. This will give you the proper 
+coordinate to check collision off of.
+
+        if(player coord is > coordinate){
+            player coord = coordinate;  
+        }
+
+Okay so the logic for the collision detection looks like it is good, but ran into an issue. When I try to pass through the map in collision detection
+function in main, it threw an error. I had to make the reference to the map in the square class to have a pointer. Currently looking into 
+pointers and how they work before I move further.
+
+
+8/12
+FINALLY FIGURING OUT POINTERS
+Diving into pointers. "&" gets the location of an address of a variable. The pointer or "*" allows us to point to the location of a variables address
+
+For example: int* number = &otherNumber;
+
+We now have a pointer that is looking at the address of otherNumber INSTEAD OF copying that value itself. This is much more efficient. 
+
+Absolutely make sure to take note of this because you will use this logic once you start making the levels:
+
+You actually already use this concept with your Map* currentMap — that's a pointer to a Map object, meaning currentMap holds the address of whichever map 
+is currently active rather than a full copy of it. That's why swapping levels is as cheap as currentMap = &level2 instead of copying the entire grid.
+
+What I'm thinking is have every single map loaded in at compile time and then use currentMap's pointer to switch levels as needed
+
+Came across something very valuable to learn. The collision was not working at all when I tried to run it. Went back and saw that everything logically looked right.
+Well, when I was trying to pass the player object by value (square Player) and then i was calling members of that player like "Player.x" it was not colliding with the wall.
+Reason for this is because that copy of Player that is passed through the parameter is thrown away after the function ends because we are using a COPY. Doing "Player.x" 
+refers to that temporary copy. To fix this, you can do a couple of things. You can pass Player by reference or pointer (square& Player or square* Player), or
+you can just do "x" when referring to player's x position. Doing the reference and pointer allows your computer to see the original copy of player. If you want to 
+ignore reference and pointer and just pass by value then you will HAVE to use x which will refer to the original copy created because that is in the class (this.x). When you
+do Player.x when passing by value then you are only referring to the temporary object that will be thrown away after function call ends.
+
