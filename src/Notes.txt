@@ -188,3 +188,20 @@ you can just do "x" when referring to player's x position. Doing the reference a
 ignore reference and pointer and just pass by value then you will HAVE to use x which will refer to the original copy created because that is in the class (this.x). When you
 do Player.x when passing by value then you are only referring to the temporary object that will be thrown away after function call ends.
 
+8/17
+It actually is not the map that is causing issues. Map is only being checked in an if statement within the collision detection. So, passing
+it through as a pointer is completely acceptable because we are not manipulating it's values
+
+8/18
+the if statements are not being touched at all. Begs the question, what do they all have in common where it could be going wrong?
+
+Troubleshooting:
+    - Lets take the first if statement and move imaginary values into It
+        - Let's assume c is at 5
+        - Let's assume top left corner of player has an x coordinate of 213
+
+I figured out why it was wasn't entering the if statements. I was referring to column and row as the const member variables and not the c and r
+values I have in my for loops. The issue now is the collision detection is way off. The player does not even collide where it is supposed to. It'said
+so crazy I almost don't even know what is going on.
+
+Testing out collision with just one wall

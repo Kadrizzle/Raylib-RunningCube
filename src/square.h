@@ -22,7 +22,7 @@ public:
 
     void movePlayer();
 
-    void mapCollisionDetection(Map* map, square& Player); //Have to pass through the level map so player can see the walls
+    void mapCollisionDetection(Map* map, square* Player); //Have to pass through the level map so player can see the walls
 
     void drawPlayer();
 

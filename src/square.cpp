@@ -1,5 +1,8 @@
 #include "square.h"
 #include <raylib.h>
+#include <iostream>
+#include <ostream>
+#include <print>
 
 square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 {
@@ -10,26 +13,28 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 }
 
 //This function MUST run before "movePlayer" function, else it will not work
-void square::mapCollisionDetection(Map* map, square& player)
+void square::mapCollisionDetection(Map* map, square* player)
 {
     int coordinate;
     //The four if statements below check the very outer edge of the screen
     //Doing this so I don't get array index out of bounds for the map collision detecion logic below these
-    if(player.x < 0)//left
+    if(player->x < 0)//left
     {
-        player.x = 0;
+        player->x = 0;
     }
-    if(player.x > screenWidth - width)//right
+    //right
+    if(player->x > screenWidth - width)
     {
-        player.x = screenWidth - width;
+        player->x = screenWidth - width;
     }
-    if(player.y < 0)//top
+    if(player->y < 0)//top
     {
-        player.y = 0;
+        player->y = 0;
     }
-    if(player.y > screenHeight - height)//bottom
+    //bottom
+    if(player->y > screenHeight - height)
     {
-        player.y = screenHeight - height;
+        player->y = screenHeight - height;
     }
 
     //Starting r and c off at 1 and exiting 1 less than total rows and cols since we are already checking for those cases above
@@ -39,36 +44,46 @@ void square::mapCollisionDetection(Map* map, square& player)
         for(int c = 1; c < mapCols-1; c++)
         {
             //Basically this is saying if the top left x coord of player is in said column AND the tile to the left = wall
-            if(getTileForTopLeftX() == c && map->grid[mapRows][mapCols-1] == tileWall)
+            //left wall
+            if(getTileForTopLeftX() == c && map->grid[r][c-1] == tileWall)
             {
-                coordinate = c * 40; //This gives us the x coordinate we need to compare to player's position
-                if(player.x < coordinate)
+                std::cout << "left wall" << std::endl;
+                //This gives us the x coordinate we need to compare to player's position
+                coordinate = c * 40;
+                if(player->x < coordinate)
                 {
-                    player.x = coordinate;
+                    player->x = coordinate;
                 } 
             }
-            if(player.getTileForTopLeftY() == r && map->grid[mapRows-1][mapCols] == tileWall)
+            //top wall
+            if(player->getTileForTopLeftY() == r && map->grid[r-1][c] == tileWall)
             {
-                coordinate = r * 40;//This gives us the y coordinate we need to compare to player's position
-                if(player.y < coordinate)
-                {
-                    player.y = coordinate;
-                }
-            }
-            if(player.getTileForBottomRightX() == c && map->grid[mapRows][mapCols+1] == tileWall)
-            {
-                coordinate = c * 40;
-                if(player.x > coordinate)
-                {
-                    player.x = coordinate;
-                }
-            }
-            if(player.getTileForBottomRightY() == r && map->grid[mapRows+1][mapCols] == tileWall)
-            {
+                std::cout << "top wall" << std::endl;
+                //This gives us the y coordinate we need to compare to player's position
                 coordinate = r * 40;
-                if(player.y > coordinate)
+                if(player->y < coordinate)
                 {
-                    player.y = coordinate;
+                    player->y = coordinate;
+                }
+            }
+            //right wall
+            if(player->getTileForBottomRightX() == c && map->grid[r][c+1] == tileWall)
+            {
+                std::cout << "right wall" << std::endl;
+                coordinate = c * 40;
+                if(player->x > coordinate)
+                {
+                    player->x = coordinate;
+                }
+            }
+            //bottom wall
+            if(player->getTileForBottomRightY() == r && map->grid[r+1][c] == tileWall)
+            {
+                std::cout << "bottom wall" << std::endl;
+                coordinate = r * 40;
+                if(player->y > coordinate)
+                {
+                    player->y = coordinate;
                 }
             }
         }

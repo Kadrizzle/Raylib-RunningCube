@@ -55,6 +55,7 @@ int main()
     int playerWidth = 30;
     int playerHeight = 30;
     square player(100, 100, playerWidth, playerHeight);
+    square* pointerPlayer = &player;
 //---------------------------------------------------------------------------------------------------------------------------
 
     int currentLevel = 100; // 99 is test level for all things testing
@@ -100,8 +101,8 @@ int main()
         
         case 100:
             currentMap = &editorMap;
-            player.mapCollisionDetection(currentMap,player);
-            player.movePlayer();
+            player.movePlayer();           
+            player.mapCollisionDetection(currentMap,pointerPlayer);
             DrawRectangle(300, 300, tileSize, 30, BLACK);
             DrawRectangle(120, 120, 5, tileSize, BLACK);
             // Tile selection
