@@ -100,9 +100,9 @@ int main()
         break;
         
         case 100:
-            currentMap = &editorMap;
-            player.movePlayer();           
-            player.mapCollisionDetection(currentMap,pointerPlayer);
+            currentMap = &editorMap;           
+            player.mapCollisionDetection(currentMap);
+            player.movePlayer();
             DrawRectangle(300, 300, tileSize, 30, BLACK);
             DrawRectangle(120, 120, 5, tileSize, BLACK);
             // Tile selection

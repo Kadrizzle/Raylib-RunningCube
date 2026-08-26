@@ -22,21 +22,24 @@ public:
 
     void movePlayer();
 
-    void mapCollisionDetection(Map* map, square* Player); //Have to pass through the level map so player can see the walls
+    void mapCollisionDetection(Map* map); //Have to pass through the level map so player can see the walls
 
     void drawPlayer();
 
     void drawEnemy();
 
-    int getBottomRightXCoord();
 
-    int getBottomRightYCoord();
+    // Remember... Column represents x ... Row represents y
 
-    int getTileForTopLeftX();
+    int getTopLeftColumn();                    int getTopRightColumn();        
+    int getTopLeftRow();                       int getTopRightRow();
 
-    int getTileForTopLeftY();
 
-    int getTileForBottomRightX();
 
-    int getTileForBottomRightY();
+
+
+
+
+    int getBottomLeftColumn();                 int getBottomRightColumn();
+    int getBottomLeftRow();                    int getBottomRightRow();
 };

@@ -13,81 +13,57 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
 }
 
 //This function MUST run before "movePlayer" function, else it will not work
-void square::mapCollisionDetection(Map* map, square* player)
+void square::mapCollisionDetection(Map* map)
 {
-    int coordinate;
-    //The four if statements below check the very outer edge of the screen
-    //Doing this so I don't get array index out of bounds for the map collision detecion logic below these
-    if(player->x < 0)//left
+    // The four if statements below check the very outer edge of the screen
+    // Doing this so I don't get array index out of bounds for the map collision detecion logic below these
+    if(x < 0)//left
     {
-        player->x = 0;
+        x = 0;
     }
     //right
-    if(player->x > screenWidth - width)
+    if(x > screenWidth - width)
     {
-        player->x = screenWidth - width;
+        x = screenWidth - width;
     }
-    if(player->y < 0)//top
+    if(y < 0)//top
     {
-        player->y = 0;
+        y = 0;
     }
     //bottom
-    if(player->y > screenHeight - height)
+    if(y > screenHeight - height)
     {
-        player->y = screenHeight - height;
+        y = screenHeight - height;
     }
 
-    //Starting r and c off at 1 and exiting 1 less than total rows and cols since we are already checking for those cases above
-    //If I don't do it like this, then I'll have redundant code. Need to think of another solution later
-    for(int r = 1; r < mapRows-1; r++)
+    //check left wall
+    if(map->grid[getTopLeftRow()][getTopLeftColumn()] == tileWall ||
+       map->grid[getBottomLeftRow()][getBottomLeftColumn()] == tileWall)
     {
-        for(int c = 1; c < mapCols-1; c++)
-        {
-            //Basically this is saying if the top left x coord of player is in said column AND the tile to the left = wall
-            //left wall
-            if(getTileForTopLeftX() == c && map->grid[r][c-1] == tileWall)
-            {
-                std::cout << "left wall" << std::endl;
-                //This gives us the x coordinate we need to compare to player's position
-                coordinate = c * 40;
-                if(player->x < coordinate)
-                {
-                    player->x = coordinate;
-                } 
-            }
-            //top wall
-            if(player->getTileForTopLeftY() == r && map->grid[r-1][c] == tileWall)
-            {
-                std::cout << "top wall" << std::endl;
-                //This gives us the y coordinate we need to compare to player's position
-                coordinate = r * 40;
-                if(player->y < coordinate)
-                {
-                    player->y = coordinate;
-                }
-            }
-            //right wall
-            if(player->getTileForBottomRightX() == c && map->grid[r][c+1] == tileWall)
-            {
-                std::cout << "right wall" << std::endl;
-                coordinate = c * 40;
-                if(player->x > coordinate)
-                {
-                    player->x = coordinate;
-                }
-            }
-            //bottom wall
-            if(player->getTileForBottomRightY() == r && map->grid[r+1][c] == tileWall)
-            {
-                std::cout << "bottom wall" << std::endl;
-                coordinate = r * 40;
-                if(player->y > coordinate)
-                {
-                    player->y = coordinate;
-                }
-            }
-        }
+        x = (getTopLeftColumn() + 1) * tileSize;
     }
+
+    //check right wall
+    if(map->grid[getTopRightRow()][getTopRightColumn()] == tileWall ||
+       map->grid[getBottomRightRow()][getBottomRightColumn()] == tileWall)
+    {
+        x = (getTopRightColumn() * tileSize) - width;
+    }
+
+    //check top wall
+    if(map->grid[getTopLeftRow()][getTopLeftColumn()] == tileWall ||
+       map ->grid[getTopRightRow()][getTopRightColumn()] == tileWall)
+    {
+        y = (getTopLeftRow() + 1) * tileSize;
+    }
+
+    //check bottom wall
+    if(map->grid[getBottomLeftRow()][getBottomLeftColumn()] == tileWall ||
+       map->grid[getBottomRightRow()][getBottomRightColumn()] == tileWall)
+    {
+        y = (getBottomLeftRow() * tileSize) - height;
+    }
+
 }
 
 void square::movePlayer()
@@ -121,36 +97,48 @@ void square::drawEnemy()
     DrawRectangle(x + 3, y + 3, width - 6, height - 6, RED);   
 }
  
-//All of the get functions below are for collision detection. Will need to track these values for collision detection to work properly
-int square::getBottomRightXCoord()
+//-All of the get functions below are for collision detection. Will need to track these values for collision detection to work properly
+//-I understand that some of these are redundant, but I want to have a function for each corner's x and y position so the code
+//in the collision detection will be more readable and thorough
+//- Subtracting one from anything that is being added by width or height. If you don't do this then you will get phantom collisions which means
+//the collision detector will think you are in two different tiles which will give the illusion that your player is teleporting
+int square::getTopLeftColumn()
 {
-    return x + width;
+    return x / tileSize;
 }
 
-int square::getBottomRightYCoord()
+int square::getTopLeftRow()
 {
-    return y + height;
+    return y / tileSize;
 }
 
-//Tile size is 40 that is why I'm dividing by this number. Quick example below to get a better understanding
-//Let's say the x value of the player is 110. 110/40 = 2 ---> This means the player is in tile 2 which will be col2. 
-//Refer to lines 19 and 20 in map.cpp... X value is the column and Y value is the row
-int square::getTileForTopLeftX()
+int square::getTopRightColumn()
 {
-    return x/40;
+    return ((x + width) - 1) / tileSize;
 }
 
-int square::getTileForTopLeftY()
+int square::getTopRightRow()
 {
-    return y/40;
+    return y / tileSize;
 }
 
-int square::getTileForBottomRightX()
+int square::getBottomRightColumn()
 {
-    return getBottomRightXCoord()/40;
+    return ((x + width) - 1) / tileSize;
 }
 
-int square::getTileForBottomRightY()
+int square::getBottomRightRow()
 {
-    return getBottomRightYCoord()/40;
+    return ((y + height) - 1) / tileSize;
 }
+
+int square::getBottomLeftColumn()
+{
+    return x / tileSize;
+}
+
+int square::getBottomLeftRow()
+{
+    return ((y + height) - 1) / tileSize;
+}
+
