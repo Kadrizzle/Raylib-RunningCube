@@ -105,3 +105,134 @@ according to where that value is. Refer to the notes above.
 -UPDATE: bottom wall and right wall works. Nice!! On to debugging and figuring out why the top and left does not work. Might be because of the way im referencing the values in grid...
 we shall see.
 
+8/3
+The wall drawing functionality is now fixed (from the short testing that I did). Moving onto collision. 
+
+The player will need a way to communicate with the 2 dimensional array. 
+
+The player will have four different points. It would be better if the player had two points, one on the top left which could check top and left
+collision and one on the bottom right which could check bottom and right collision, but I'll do four points for now cause it would make the most 
+sense in my head. Pic below illustrates what this would look like. 
+
+
+DISREGARD EVERYTHING UNTIL LINE 134
+While the player is moving around, these four points will:
+    - First, figure out which tile they are in. This entails converting the pixel position back to a tile position
+    - Second, once you figure out what tile position it is in, then you will check the direction that the point is supposed to check. For example,
+      the left point on the player needs to check the tile to the left of whatever tile it is currently in.
+
+
+                                        --------o--------
+                                        |               |
+                                        |               |
+                                        o               o
+                                        |               |
+                                        |               |
+                                        |               |
+                                        --------o--------
+
+After looking at this further, this just over complicates things. I'll stick with the two coordinates, top left and bottom right corners of
+the square. For the top left corner, you can just reference the x and y value in the square class. For the bottom right corner make some get()
+functions to return these values.
+
+1. Grab top left and bottom right coordinates of player - DONE
+2. Make get() functions that finds the tile of each coordinate - DONE
+3. Make the collision detection function
+    - IF (a specific coordinate is in said tile){
+        Check the respective value in the 2d array
+    }
+
+
+8/4
+Starting off with the collision detection. Drawing a picture in paint right now to visualize the collision detection.
+As you are looping through the map you will check to see if the tile value after converting x and y coordinate for both points are in the map.
+
+        if(x == map[row][col]){
+            //int tile = map[row][col];
+            //int coordinate = tile * 40;
+            
+        }
+
+then you will check for collision based upon the tile that it is in. You will do [tile that coordinate is in] * 40. This will give you the proper 
+coordinate to check collision off of.
+
+        if(player coord is > coordinate){
+            player coord = coordinate;  
+        }
+
+Okay so the logic for the collision detection looks like it is good, but ran into an issue. When I try to pass through the map in collision detection
+function in main, it threw an error. I had to make the reference to the map in the square class to have a pointer. Currently looking into 
+pointers and how they work before I move further.
+
+
+8/12
+FINALLY FIGURING OUT POINTERS
+Diving into pointers. "&" gets the location of an address of a variable. The pointer or "*" allows us to point to the location of a variables address
+
+For example: int* number = &otherNumber;
+
+We now have a pointer that is looking at the address of otherNumber INSTEAD OF copying that value itself. This is much more efficient. 
+
+Absolutely make sure to take note of this because you will use this logic once you start making the levels:
+
+You actually already use this concept with your Map* currentMap — that's a pointer to a Map object, meaning currentMap holds the address of whichever map 
+is currently active rather than a full copy of it. That's why swapping levels is as cheap as currentMap = &level2 instead of copying the entire grid.
+
+What I'm thinking is have every single map loaded in at compile time and then use currentMap's pointer to switch levels as needed
+
+Came across something very valuable to learn. The collision was not working at all when I tried to run it. Went back and saw that everything logically looked right.
+Well, when I was trying to pass the player object by value (square Player) and then i was calling members of that player like "Player.x" it was not colliding with the wall.
+Reason for this is because that copy of Player that is passed through the parameter is thrown away after the function ends because we are using a COPY. Doing "Player.x" 
+refers to that temporary copy. To fix this, you can do a couple of things. You can pass Player by reference or pointer (square& Player or square* Player), or
+you can just do "x" when referring to player's x position. Doing the reference and pointer allows your computer to see the original copy of player. If you want to 
+ignore reference and pointer and just pass by value then you will HAVE to use x which will refer to the original copy created because that is in the class (this.x). When you
+do Player.x when passing by value then you are only referring to the temporary object that will be thrown away after function call ends.
+
+8/17
+It actually is not the map that is causing issues. Map is only being checked in an if statement within the collision detection. So, passing
+it through as a pointer is completely acceptable because we are not manipulating it's values
+
+8/18
+the if statements are not being touched at all. Begs the question, what do they all have in common where it could be going wrong?
+
+Troubleshooting:
+    - Lets take the first if statement and move imaginary values into It
+        - Let's assume c is at 5
+        - Let's assume top left corner of player has an x coordinate of 213
+
+I figured out why it was wasn't entering the if statements. I was referring to column and row as the const member variables and not the c and r
+values I have in my for loops. The issue now is the collision detection is way off. The player does not even collide where it is supposed to. It'said
+so crazy I almost don't even know what is going on.
+
+Testing out collision with just one wall. Okay I see the issue now. The if statement are wide open. The player is colliding with the wall
+along the whole entire x and y axis that the wall is sitting on instead of within the wall's tiles
+
+8/24
+Refer to the last bit of notes from 8/18. Since the collision is wide open you will have to close it. You did this a while back when you were writing the collision detection
+for enemies. 
+
+After looking at the function you can see that you were checking the left and right side of the player. If the enemy was anywhere in that box then they are colliding.
+
+so how do you do this for this map?? 
+
+It is getting stuck on the left and top if statements. 
+
+figured it out (LETS GOOOO). The reason the player is getting stuck is because it NEVER visits that second if statement after the first. What you will have 
+to do is share the coordinate variables between all of the if statements instead of reassigning it within each if statement. You had too many nested If
+statements which lead to your code getting caught up on itself. 
+
+Finally giving in and using AI :((((. You should not check the whole entire grid every frame. You just need to check the tiles that the player
+is in
+
+8/25
+Using Claude to give me notes on how to solve this instead of copying code. I was very close to solving it with my first approach. Since you need
+to check all four corners of the player, make a function as to where you can pass in.
+
+All functions are made to where I can check which tile every corner is in. Check that off
+
+The player is clipping through walls
+
+
+9/30
+
+

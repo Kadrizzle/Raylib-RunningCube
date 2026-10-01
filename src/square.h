@@ -1,10 +1,7 @@
 #pragma once
+#include "map.h"
+#include "config.h"
 
-// Sharing these variables from main to my square class
-extern int innerMapX;
-extern int innerMapY;
-extern int innerMapWidth;
-extern int innerMapHeight;
 
 class square
 {
@@ -21,11 +18,28 @@ public:
 
     void movePlayer();
 
-    void mapCollisionDetection();
+    void mapCollisionDetection(Map* map); //Have to pass through the level map so player can see the walls
 
     void drawPlayer();
 
     void drawEnemy();
 
-    void moveEnemy();
+    void moveAndCollide(Map* map);
+
+    void clampToScreen();
+
+
+    // Remember... Column represents x ... Row represents y ...
+
+    int getTopLeftColumn();                    int getTopRightColumn();        
+    int getTopLeftRow();                       int getTopRightRow();
+
+
+
+
+
+
+
+    int getBottomLeftColumn();                 int getBottomRightColumn();
+    int getBottomLeftRow();                    int getBottomRightRow();
 };

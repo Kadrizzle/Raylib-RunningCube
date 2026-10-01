@@ -30,25 +30,25 @@ void Map::draw(){ //nested for loop that is looping from left to right, then goi
                 case tileEnd: DrawRectangle(tileX, tileY, tileSize, tileSize, BLUE); break; //end
                 case tileWall: 
                     //top wall (relative to the value below 4)
-                    if(row > 0 &&(grid[row-1][col] == 2) || (grid[row-1][col] == 3) || (grid[row-1][col] == 5)){
+                    if(row > 0 && (grid[row-1][col] == 2 || grid[row-1][col] == 3 || grid[row-1][col] == 5)){
                         DrawRectangle(tileX, tileY, tileSize, 5, BLACK);
                         //std::cout << "you drew a bottom wall" << std::endl;
                     }
                     
                     //bottom wall (relative to the value above 4)
-                    if(row < mapRows-1 && (grid[row+1][col] == 2) || (grid[row+1][col] == 3) || (grid[row+1][col] == 5)){
+                    if(row < mapRows-1 && (grid[row+1][col] == 2 || grid[row+1][col] == 3 || grid[row+1][col] == 5)){
                         DrawRectangle(tileX, tileY + tileSize - 5, tileSize, 5, BLACK);
                         //std::cout << "you drew a top wall" << std::endl;
                     }
 
                     //left wall (relative to value to the right of 4) 
-                    if(col < mapCols-1 &&(grid[row][col+1] == 2) || (grid[row][col+1] == 3) || (grid[row][col+1] == 5)){
+                    if(col < mapCols-1 && (grid[row][col+1] == 2 || grid[row][col+1] == 3 || grid[row][col+1] == 5)){
                         DrawRectangle(tileX + tileSize - 5, tileY, 5, tileSize, BLACK);
                         //std::cout << "you drew a left wall" << std::endl;
                     }
 
                     //right wall (relative to value to the left of 4)
-                    if(col > 0 &&(grid[row][col-1] == 2) || (grid[row][col-1] == 3) || (grid[row][col-1] == 5)){
+                    if(col > 0 && (grid[row][col-1] == 2 || grid[row][col-1] == 3 || grid[row][col-1] == 5)){
                         DrawRectangle(tileX, tileY, 5, tileSize, BLACK);
                         //std::cout << "you drew a right wall" << std::endl;
                     }
@@ -59,9 +59,11 @@ void Map::draw(){ //nested for loop that is looping from left to right, then goi
     }
 }
 
-// bool Map::isWall(int row, int col){
-//     return grid[row][col] == 1;
-// }
+bool Map::isWall(int row, int col)
+{
+    if (row < 0 || row >= mapRows || col < 0 || col >= mapCols) return true;
+    return grid[row][col] == tileWall;
+}
 
 void Map::save(const char* filename)
 {
