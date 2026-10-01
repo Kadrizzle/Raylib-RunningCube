@@ -12,58 +12,41 @@ square::square(float squareX, float squareY, int squareWidth, int squareHeight)
     height = squareHeight;
 }
 
-//This function MUST run before "movePlayer" function, else it will not work
-void square::mapCollisionDetection(Map* map)
+void square::clampToScreen()
 {
-    // The four if statements below check the very outer edge of the screen
-    // Doing this so I don't get array index out of bounds for the map collision detecion logic below these
-    if(x < 0)//left
-    {
-        x = 0;
-    }
-    //right
-    if(x > screenWidth - width)
-    {
-        x = screenWidth - width;
-    }
-    if(y < 0)//top
-    {
-        y = 0;
-    }
-    //bottom
-    if(y > screenHeight - height)
-    {
-        y = screenHeight - height;
-    }
+    if (x < 0) x = 0;
+    if (x > screenWidth - width) x = screenWidth - width;
+    if (y < 0) y = 0;
+    if (y > screenHeight - height) y = screenHeight - height;
+}
 
-    //check left wall
-    if(map->grid[getTopLeftRow()][getTopLeftColumn()] == tileWall ||
-       map->grid[getBottomLeftRow()][getBottomLeftColumn()] == tileWall)
-    {
+void square::moveAndCollide(Map* map)
+{
+    float dx = 0, dy = 0;
+    if (IsKeyDown(KEY_D)) dx += velocityX;
+    if (IsKeyDown(KEY_A)) dx -= velocityX;
+    if (IsKeyDown(KEY_S)) dy += velocityY;
+    if (IsKeyDown(KEY_W)) dy -= velocityY;
+
+    // Horizontal first
+    x += dx;
+    clampToScreen();
+    if (dx > 0 && (map->isWall(getTopRightRow(), getTopRightColumn()) ||
+                   map->isWall(getBottomRightRow(), getBottomRightColumn())))
+        x = getTopRightColumn() * tileSize - width;
+    else if (dx < 0 && (map->isWall(getTopLeftRow(), getTopLeftColumn()) ||
+                        map->isWall(getBottomLeftRow(), getBottomLeftColumn())))
         x = (getTopLeftColumn() + 1) * tileSize;
-    }
 
-    //check right wall
-    if(map->grid[getTopRightRow()][getTopRightColumn()] == tileWall ||
-       map->grid[getBottomRightRow()][getBottomRightColumn()] == tileWall)
-    {
-        x = (getTopRightColumn() * tileSize) - width;
-    }
-
-    //check top wall
-    if(map->grid[getTopLeftRow()][getTopLeftColumn()] == tileWall ||
-       map ->grid[getTopRightRow()][getTopRightColumn()] == tileWall)
-    {
+    // Then vertical
+    y += dy;
+    clampToScreen();
+    if (dy > 0 && (map->isWall(getBottomLeftRow(), getBottomLeftColumn()) ||
+                   map->isWall(getBottomRightRow(), getBottomRightColumn())))
+        y = getBottomLeftRow() * tileSize - height;
+    else if (dy < 0 && (map->isWall(getTopLeftRow(), getTopLeftColumn()) ||
+                        map->isWall(getTopRightRow(), getTopRightColumn())))
         y = (getTopLeftRow() + 1) * tileSize;
-    }
-
-    //check bottom wall
-    if(map->grid[getBottomLeftRow()][getBottomLeftColumn()] == tileWall ||
-       map->grid[getBottomRightRow()][getBottomRightColumn()] == tileWall)
-    {
-        y = (getBottomLeftRow() * tileSize) - height;
-    }
-
 }
 
 void square::movePlayer()

@@ -3,25 +3,21 @@
 #include <iostream>
 #include <vector>
 #include "map.h"
+#include "config.h"
 
-//---------------------------------------------------------------------------------------------------------------------------
-// Defining these outside of main so they'll be global
-int screenWidth = 1200;
-int screenHeight = 600;
-//---------------------------------------------------------------------------------------------------------------------------
 //functions()
 
-bool enemyCollisionDetection(square enemy, square player)
-{
-    if(((enemy.x > player.x) && (enemy.x < (player.x + player.width)) || //left side of enemy
-        (enemy.x + 30 > player.x) && (enemy.x + 30 < (player.x + player.width))) && //right side of enemy
-        ((enemy.y > player.y) && (enemy.y < (player.y + 30)) || //top side of enemy
-        (enemy.y + 30 > player.y) && (enemy.y + 30 < (player.y + 30)))) //bottom side of enemy
-    {
-        return true;
-    }
-    else return false;
-}
+// bool enemyCollisionDetection(square enemy, square player)
+// {
+//     if(((enemy.x > player.x) && (enemy.x < (player.x + player.width)) || //left side of enemy
+//         (enemy.x + 30 > player.x) && (enemy.x + 30 < (player.x + player.width))) && //right side of enemy
+//         ((enemy.y > player.y) && (enemy.y < (player.y + 30)) || //top side of enemy
+//         (enemy.y + 30 > player.y) && (enemy.y + 30 < (player.y + 30)))) //bottom side of enemy
+//     {
+//         return true;
+//     }
+//     else return false;
+// }
 
 int emptyLayout[mapRows][mapCols] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -54,8 +50,7 @@ int main()
     //Player variables
     int playerWidth = 30;
     int playerHeight = 30;
-    square player(100, 100, playerWidth, playerHeight);
-    square* pointerPlayer = &player;
+    square player(100, 100, playerWidth, playerHeight);  
 //---------------------------------------------------------------------------------------------------------------------------
 
     int currentLevel = 100; // 99 is test level for all things testing
@@ -101,8 +96,7 @@ int main()
         
         case 100:
             currentMap = &editorMap;           
-            player.mapCollisionDetection(currentMap);
-            player.movePlayer();
+            player.moveAndCollide(currentMap);
             DrawRectangle(300, 300, tileSize, 30, BLACK);
             DrawRectangle(120, 120, 5, tileSize, BLACK);
             // Tile selection

@@ -230,3 +230,9 @@ to check all four corners of the player, make a function as to where you can pas
 
 All functions are made to where I can check which tile every corner is in. Check that off
 
+The player is clipping through walls
+
+
+9/30
+
+

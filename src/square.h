@@ -1,10 +1,6 @@
 #pragma once
-#include "map.h";
-
-
-// Sharing these variables from main to my square header
-extern int screenWidth;
-extern int screenHeight;
+#include "map.h"
+#include "config.h"
 
 
 class square
@@ -28,8 +24,12 @@ public:
 
     void drawEnemy();
 
+    void moveAndCollide(Map* map);
 
-    // Remember... Column represents x ... Row represents y
+    void clampToScreen();
+
+
+    // Remember... Column represents x ... Row represents y ...
 
     int getTopLeftColumn();                    int getTopRightColumn();        
     int getTopLeftRow();                       int getTopRightRow();
